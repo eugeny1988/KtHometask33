@@ -3,34 +3,34 @@ class Chat(
     val user1: User,
     val user2: User,
     var messages: MutableList<Message>,
-    var isChatRead: Boolean,
-    var isLastMessage: Boolean
+    var isChatRead: Boolean = false,
+    var hasLastMessage: Boolean = false
 ) {
 
     init {
-        for (message: Message in messages){
-            if (message.isRead){
+        for (message: Message in messages) {
+            if (message.isRead) {
                 isChatRead = true
                 break
             } else isChatRead = false
         }
-        if (!messages.isEmpty()){
-            isLastMessage = true
-        } else isLastMessage = false
+        hasLastMessage = messages.isNotEmpty()
     }
+
     fun createMessage(message: Message) {
         this.messages.add(message)
         message.isRead = true
 
     }
 
-    fun editMessage(id: Int, text: String) {
-        this.messages.set(id - 1, Message(text, false, true))
+    fun editMessage(id: Int, text: String, user: User) {
+        this.messages.set(id - 1, Message(text, user, false, true))
 
     }
-    fun deleteMessage(id: Int){
-        this.messages.removeAt(id-1)
-        messages[id-1].isDeleted = true
+
+    fun deleteMessage(id: Int) {
+        this.messages.removeAt(id - 1)
+        messages[id - 1].isDeleted = true
     }
 
 
